@@ -70,7 +70,17 @@ const calendar = new Calendar(calendarEl, {
   selectMirror: true,
   longPressDelay: 100,
   events: [],
-  height: 'auto',
+  height: '100vh',
+  contentHeight: 'auto',
+  aspectRatio: window.innerWidth < 768 ? 1.0 : 1.35,
+  headerToolbar: {
+    left: 'prev,next',
+    center: 'title',
+    right: 'today'
+  },
+  dayMaxEvents: window.innerWidth < 480 ? 2 : 3,
+  moreLinkClick: 'popover',
+  eventDisplay: 'block',
   
   // Create new event
   select: async (info) => {

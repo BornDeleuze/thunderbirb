@@ -1,87 +1,238 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
+/* Reset default margins and padding */
+* {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 #app {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
 }
 
 #calendar {
-  margin-top: 2rem;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
-/* FullCalendar styling */
+/* FullCalendar mobile optimizations */
 .fc {
-  background: white;
-  color: black;
-  border-radius: 8px;
-  padding: 1rem;
+  height: 100vh !important;
+  font-size: 14px;
 }
 
-.fc-toolbar-title {
-  color: #333;
+/* Remove default FullCalendar margins */
+.fc-view-harness {
+  height: 100% !important;
+}
+
+.fc-daygrid {
+  height: 100% !important;
+}
+
+/* Optimize header for mobile */
+.fc-header-toolbar {
+  padding: 8px 12px !important;
+  margin-bottom: 0 !important;
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fc-toolbar-chunk {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .fc-button {
-  background-color: #646cff !important;
-  border-color: #646cff !important;
+  padding: 6px 12px !important;
+  font-size: 13px !important;
+  border-radius: 6px !important;
 }
 
-.fc-button:hover {
-  background-color: #535bf2 !important;
-  border-color: #535bf2 !important;
+.fc-button-group .fc-button {
+  border-radius: 0 !important;
 }
 
+.fc-button-group .fc-button:first-child {
+  border-top-left-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
+}
+
+.fc-button-group .fc-button:last-child {
+  border-top-right-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
+}
+
+/* Optimize day grid for mobile */
+.fc-daygrid-day {
+  min-height: 60px !important;
+}
+
+.fc-daygrid-day-number {
+  padding: 4px 6px !important;
+  font-size: 13px !important;
+  font-weight: 600;
+}
+
+/* Event styling for better mobile readability */
 .fc-event {
+  border: none !important;
+  border-radius: 4px !important;
+  padding: 2px 6px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  margin: 1px 2px !important;
   cursor: pointer;
+  background: #007bff !important;
+  color: white !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.fc-daygrid-event {
-  border-radius: 4px;
+.fc-event:hover {
+  background: #0056b3 !important;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
+/* Day cell improvements */
+.fc-daygrid-day-frame {
+  padding: 0 !important;
+  min-height: 60px;
+}
+
+.fc-daygrid-day-events {
+  margin: 2px !important;
+  min-height: 20px;
+}
+
+.fc-daygrid-day-top {
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+/* Today highlighting */
+.fc-day-today {
+  background-color: rgba(0, 123, 255, 0.1) !important;
+}
+
+.fc-day-today .fc-daygrid-day-number {
+  background: #007bff;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2px;
+}
+
+/* Week day headers */
+.fc-col-header {
+  background: #f8f9fa;
+  font-weight: 600;
+  padding: 8px 0 !important;
+}
+
+.fc-col-header-cell {
+  padding: 8px 4px !important;
+}
+
+/* Remove scrollbars on mobile */
+.fc-scroller {
+  overflow: hidden !important;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+  .fc {
+    font-size: 12px;
   }
   
-  #app {
-    background-color: #f9f9f9;
-    border-radius: 8px;
+  .fc-header-toolbar {
+    padding: 6px 8px !important;
   }
+  
+  .fc-button {
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+  }
+  
+  .fc-toolbar-title {
+    font-size: 16px !important;
+    font-weight: 600;
+  }
+  
+  .fc-daygrid-day {
+    min-height: 50px !important;
+  }
+  
+  .fc-daygrid-day-number {
+    font-size: 12px !important;
+    padding: 2px 4px !important;
+  }
+  
+  .fc-event {
+    font-size: 10px !important;
+    padding: 1px 4px !important;
+    margin: 0.5px 1px !important;
+  }
+  
+  .fc-col-header-cell {
+    padding: 6px 2px !important;
+    font-size: 11px !important;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .fc-header-toolbar {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 8px !important;
+  }
+  
+  .fc-toolbar-chunk {
+    justify-content: center;
+  }
+  
+  .fc-daygrid-day {
+    min-height: 45px !important;
+  }
+  
+  .fc-event {
+    font-size: 9px !important;
+  }
+}
+
+/* Selection styling */
+.fc-highlight {
+  background: rgba(0, 123, 255, 0.2) !important;
+}
+
+/* Remove any default app padding that might exist */
+body {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Ensure calendar takes full viewport */
+.fc-view-harness-active > .fc-view {
+  height: 100% !important;
 }
