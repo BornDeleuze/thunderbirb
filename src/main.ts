@@ -24,22 +24,33 @@ interface CalendarEvent extends EventData {
   id: string;
 }
 
-const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY!,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN!,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID!,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET!,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID!,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID!
+// Validate environment variables
+const requiredEnvVars = {
+  VITE_FIREBASE_API_KEY: import.meta.env.VITE_FIREBASE_API_KEY,
+  VITE_FIREBASE_AUTH_DOMAIN: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  VITE_FIREBASE_PROJECT_ID: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  VITE_FIREBASE_STORAGE_BUCKET: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  VITE_FIREBASE_MESSAGING_SENDER_ID: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  VITE_FIREBASE_APP_ID: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-// Validate config
-const requiredKeys = Object.keys(firebaseConfig) as (keyof typeof firebaseConfig)[];
-for (const key of requiredKeys) {
-  if (!firebaseConfig[key]) {
-    throw new Error(`Missing required environment variable: VITE_FIREBASE_${key.toUpperCase()}`);
-  }
+// Check for missing environment variables
+const missingVars = Object.entries(requiredEnvVars)
+  .filter(([key, value]) => !value)
+  .map(([key]) => key);
+
+if (missingVars.length > 0) {
+  throw new Error(`Missing required environment variables: ${missingVars.join(', ')}\nPlease create a .env file with these variables.`);
 }
+
+const firebaseConfig = {
+  apiKey: requiredEnvVars.VITE_FIREBASE_API_KEY,
+  authDomain: requiredEnvVars.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: requiredEnvVars.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: requiredEnvVars.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: requiredEnvVars.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: requiredEnvVars.VITE_FIREBASE_APP_ID
+};
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -56,6 +67,8 @@ const calendar = new Calendar(calendarEl, {
   initialView: 'dayGridMonth',
   editable: true,
   selectable: true,
+  selectMirror: true,
+  longPressDelay: 100,
   events: [],
   height: 'auto',
   
