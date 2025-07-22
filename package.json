@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "tsc"
+     "build": "tsc && cp index.html dist/"
   },
   "dependencies": {
     "@fullcalendar/core": "^6.x",
