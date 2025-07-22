@@ -25,12 +25,12 @@ interface CalendarEvent extends EventData {
 }
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyBmjIMdlyDgqp2_NXMgeqMzyV-G7js_JQo",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "thunderbirb-8f840.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "thunderbirb-8f840",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "thunderbirb-8f840.firebasestorage.app",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "621611243040",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:621611243040:web:a3cd68b5ae89359816ce45"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 const app = initializeApp(firebaseConfig);
