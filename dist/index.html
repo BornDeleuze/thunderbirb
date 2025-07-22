@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sailboat Shared Calendar</title>
+  <title>Thunderbirb</title>
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
   <style>
     body {
@@ -16,10 +16,24 @@
       margin: 40px auto;
     }
   </style>
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    // your config
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Expose db to global scope if needed
+  window.db = db;
+</script>
 </head>
 <body>
-  <h2 style="text-align: center;">THUNDERBIRB Shared Calendar</h2>
+  <h2 style="text-align: center;">THUNDERBIRB Calendar</h2>
   <div id="calendar"></div>
-  <script type="module" src="./dist/main.js"></script>
+  <script type="module" src="./main.js"></script>
 </body>
 </html>

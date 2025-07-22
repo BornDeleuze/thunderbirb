@@ -1,14 +1,21 @@
 {
+  "name": "shared-calendar",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-     "build": "tsc && cp index.html dist/"
-  },
-  "dependencies": {
-    "@fullcalendar/core": "^6.x",
-    "@fullcalendar/daygrid": "^6.x",
-    "@fullcalendar/interaction": "^6.x",
-    "firebase": "^10.x"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "typescript": "^5.x"
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  },
+  "dependencies": {
+    "firebase": "^10.1.0",
+    "@fullcalendar/core": "^6.1.8",
+    "@fullcalendar/daygrid": "^6.1.8",
+    "@fullcalendar/interaction": "^6.1.8"
   }
 }
