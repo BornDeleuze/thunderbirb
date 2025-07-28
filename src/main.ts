@@ -7,7 +7,10 @@ import {
   onSnapshot,
   deleteDoc,
   doc,
-  DocumentData
+  DocumentData,
+  query,
+  where,
+  getDocs
 } from "firebase/firestore";
 import { Calendar } from "@fullcalendar/core";
 import interactionPlugin from '@fullcalendar/interaction';
@@ -36,7 +39,7 @@ const requiredEnvVars = {
 
 // Check for missing environment variables
 const missingVars = Object.entries(requiredEnvVars)
-  .filter(([_, value]) => !value)  // Use underscore for unused parameter
+  .filter(([key, value]) => !value)
   .map(([key]) => key);
 
 if (missingVars.length > 0) {
@@ -70,17 +73,7 @@ const calendar = new Calendar(calendarEl, {
   selectMirror: true,
   longPressDelay: 100,
   events: [],
-  height: '100vh',
-  contentHeight: 'auto',
-  aspectRatio: window.innerWidth < 768 ? 1.0 : 1.35,
-  headerToolbar: {
-    left: 'prev,next',
-    center: 'title',
-    right: 'today'
-  },
-  dayMaxEvents: window.innerWidth < 480 ? 2 : 3,
-  moreLinkClick: 'popover',
-  eventDisplay: 'block',
+  height: 'auto',
   
   // Create new event
   select: async (info) => {
@@ -119,6 +112,51 @@ const calendar = new Calendar(calendarEl, {
 });
 
 calendar.render();
+
+// Clean up past events on app load
+const cleanupPastEvents = async () => {
+  try {
+    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+    const pastEventsQuery = query(eventsRef, where('start', '<', today));
+    const snapshot = await getDocs(pastEventsQuery);
+    
+    const deletePromises = snapshot.docs.map(doc => deleteDoc(doc.ref));
+    await Promise.all(deletePromises);
+    
+    if (snapshot.docs.length > 0) {
+      console.log(`Cleaned up ${snapshot.docs.length} past events`);
+    }
+  } catch (error) {
+    console.error('Error cleaning up past events:', error);
+  }
+};
+
+// Run cleanup when app loads
+cleanupPastEvents();
+
+// Mobile-friendly add event button
+const addEventBtn = document.getElementById('add-event-btn') as HTMLButtonElement;
+if (addEventBtn) {
+  addEventBtn.addEventListener('click', async () => {
+    const title = prompt("Enter event title:");
+    if (title) {
+      const startDate = prompt("Enter start date (YYYY-MM-DD):", new Date().toISOString().split('T')[0]);
+      if (startDate) {
+        try {
+          await addDoc(eventsRef, {
+            title,
+            start: startDate,
+            end: startDate
+          });
+          console.log('Event added successfully');
+        } catch (error) {
+          console.error('Error adding event:', error);
+          alert('Failed to add event. Please try again.');
+        }
+      }
+    }
+  });
+}
 
 // Real-time sync of Firestore events to calendar
 onSnapshot(eventsRef, (snapshot) => {
