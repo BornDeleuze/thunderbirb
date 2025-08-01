@@ -13,6 +13,9 @@ html, body {
 }
 .mobile{
   display: none;
+  color:#007bff;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  padding-left: 2em;
 }
 #app {
   height: 100vh;
