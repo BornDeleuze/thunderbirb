@@ -11,7 +11,9 @@ html, body {
   overflow-x: hidden;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
-
+.mobile{
+  display: none;
+}
 #app {
   height: 100vh;
   width: 100vw;
@@ -160,6 +162,9 @@ html, body {
 
 /* Mobile-specific adjustments */
 @media (max-width: 768px) {
+  .mobile{
+    display: block;
+  }
   .fc {
     font-size: 12px;
   }
@@ -221,18 +226,7 @@ html, body {
   }
 }
 
-/* Selection styling */
-.fc-highlight {
-  background: rgba(0, 123, 255, 0.2) !important;
-}
-
-/* Remove any default app padding that might exist */
-body {
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
 /* Ensure calendar takes full viewport */
 .fc-view-harness-active > .fc-view {
-  height: 100% !important;
+  height: 100%
 }
